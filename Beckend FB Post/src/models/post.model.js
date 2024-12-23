@@ -8,24 +8,21 @@ const postSchema = new mongoose.Schema({
    },
 
    author : {
-    type : mongoose.Schema.Types.ObjectId , ref : User ,  required : true
+    type : mongoose.Schema.Types.ObjectId , ref : "User" ,  required : true
    },
 
    likes : [{
-    type : mongoose.Schema.Types.ObjectId , ref : User
+    type : mongoose.Schema.Types.ObjectId , ref : "User"
    }],
 
    sheres : [{
-    type : mongoose.Schema.Types.ObjectId , ref : User
+    type : mongoose.Schema.Types.ObjectId , ref : "User"
    }],
 
    comments : [{
-    User : {type : mongoose.Schema.Types.ObjectId , ref : User},
-    text : {type : String , ref : User},
-    ceatedAt : {type : Date , default : Date.now}
-   }]
-    
-   
+    User : {type : mongoose.Schema.Types.ObjectId , ref : "User"},
+    text : {type : String }
+   }]  
 },
 {
     timestamps : true
