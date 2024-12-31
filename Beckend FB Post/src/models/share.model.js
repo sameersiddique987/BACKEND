@@ -14,5 +14,5 @@ const shareSchema = new mongoose.Schema({
 }
 )
 
-export default mongoose.model("Post", shareSchema);
+export default mongoose.model("Share", shareSchema);
 
