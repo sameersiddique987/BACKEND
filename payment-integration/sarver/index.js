@@ -17,8 +17,43 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.post("/api/v1/checkout" , async (req , res)=>{
-  const {products } = req.body;
+// app.post("/api/v1/checkout" , async (req , res)=>{
+//   const {products } = req.body;
+//   const lineItems = products.map((item) => ({
+//     price_data: {
+//       currency: "usd",
+//       product_data: {
+//         name: item.name,
+//       },
+//       unit_amount: item.price * 100,
+//     },
+//     quantity: item.quantity,
+//   }));
+
+//   const session = await stripe.checkout.sessions.create({
+//     payment_method_types: ["card"],
+//     line_items: lineItems,
+//     mode: "payment",
+//     success_url: "http://localhost:5173/success",
+//     cancel_url: "http://localhost:5173/cancel",
+//   });
+
+//   res.json({ message: "session completed", id: session.id });
+// });
+
+
+
+
+
+app.post("/api/v1/checkout", async (req, res) => {
+  console.log("Request body:", req.body);
+  
+  const { products } = req.body;
+  
+  if (!products || !Array.isArray(products)) {
+    return res.status(400).json({ error: "Invalid products format" });
+  }
+  
   const lineItems = products.map((item) => ({
     price_data: {
       currency: "usd",
@@ -30,17 +65,21 @@ app.post("/api/v1/checkout" , async (req , res)=>{
     quantity: item.quantity,
   }));
 
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
-    line_items: lineItems,
-    mode: "payment",
-    success_url: "http://localhost:5173/success",
-    cancel_url: "http://localhost:5173/cancel",
-  });
-
-  res.json({ message: "session completed", id: session.id });
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: lineItems,
+      mode: "payment",
+      success_url: "http://localhost:5173/success",
+      cancel_url: "http://localhost:5173/cancel",
+    });
+    
+    res.json({ message: "Session completed", id: session.id });
+  } catch (error) {
+    console.error("Stripe error:", error);
+    res.status(500).json({ error: error.message });
+  }
 });
-
 
 
 app.listen(port, () => {

@@ -5,6 +5,7 @@ import Layout from '../Layout'
 import Home from './pages/Home'
 import Success from './pages/success'
 import Cancel from './pages/cancel'
+import Checkout from './pages/Checkout'
 
 const router = createBrowserRouter ([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter ([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "checkout",
+        element: <Checkout />,
       },
       {
         path: "success",

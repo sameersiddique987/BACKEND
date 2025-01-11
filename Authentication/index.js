@@ -9,7 +9,9 @@ import connectDB from "./src/db/index.js"
 import routes from "./src/routes/users.routes.js"
 const app = express();
 
-app.use(cors());
+app.use(cors({origin: "http://localhost:5173", // React frontend URL
+  methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+  credentials: true,}));
 app.use(express.json());
 app.use(cookieParser());
 
